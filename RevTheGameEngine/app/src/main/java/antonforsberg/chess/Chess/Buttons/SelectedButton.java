@@ -2,6 +2,7 @@ package antonforsberg.chess.Chess.Buttons;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 
 import antonforsberg.chess.Chess.Game.Logic.GameLogic;

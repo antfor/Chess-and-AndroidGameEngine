@@ -2,6 +2,7 @@ package antonforsberg.chess.Chess.Game.Logic;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.opengl.GLSurfaceView;
 
 import java.util.ArrayList;
 import java.util.Arrays;

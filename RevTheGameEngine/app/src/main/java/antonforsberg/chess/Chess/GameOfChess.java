@@ -2,6 +2,7 @@ package antonforsberg.chess.Chess;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 
 import java.util.ArrayList;
@@ -28,9 +29,8 @@ public class GameOfChess implements DraweblePerspectiv,UiPressListener,DeltaTime
     private Context mActivityContext;
 
 
-    public GameOfChess(Context context){
-
-     mActivityContext=context;
+    public GameOfChess(Context mActivityContext){
+     this.mActivityContext=mActivityContext;
 
     }
 

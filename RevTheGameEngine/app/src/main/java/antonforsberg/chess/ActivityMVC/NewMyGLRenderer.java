@@ -23,6 +23,7 @@ import antonforsberg.chess.GUI.Buttons.Button3D;
 import antonforsberg.chess.GUI.Buttons.Dpad;
 import antonforsberg.chess.GUI.Buttons.switchobject;
 import antonforsberg.chess.GUI.ScreenData;
+import antonforsberg.chess.Global.GLview;
 import antonforsberg.chess.Interfaces.DrawebleOrtographic;
 import antonforsberg.chess.Interfaces.DraweblePerspectiv;
 import antonforsberg.chess.comMesh.Objects.reflect;
@@ -201,7 +202,8 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
         Matrix.frustumM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
         Matrix.orthoM(mUiMatrix, 0, left, right, bottom, top, 0, 10);
 
-
+        GLview.width=width;
+        GLview.height=height;
     }
 
     @Override

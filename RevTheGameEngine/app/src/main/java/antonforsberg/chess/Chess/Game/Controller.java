@@ -2,6 +2,7 @@ package antonforsberg.chess.Chess.Game;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.opengl.GLSurfaceView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +39,8 @@ public class Controller {
     private GameLogic logic;
 
 
-    public Controller(Context context,GameLogic logic){
-        mActivityContext=context;
+    public Controller(Context mActivityContext, GameLogic logic){
+        this.mActivityContext=mActivityContext;
         this.logic=logic;
 
 

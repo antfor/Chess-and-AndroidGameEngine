@@ -2,6 +2,7 @@ package antonforsberg.chess.GUI.Buttons;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Vector;
 
 import antonforsberg.chess.GUI.ScreenData;
+import antonforsberg.chess.Global.GLview;
 import antonforsberg.chess.R;
 import antonforsberg.chess.comMesh.FinalMesh;
 import antonforsberg.chess.comobject.LoadObjectAssets;
@@ -31,18 +33,15 @@ public class Button3D {
     private float[] colornotslected=new float[24];
     private int pointerid;
     private List<float[]> corners=new ArrayList<>(4);
-    private static int width,height;
-    private static ScreenData screenData=new ScreenData();
 
-    public static void updateScreenSize(){
-        width=screenData.getWidth();
-        height=screenData.getHeight();
-    }
+
 
 
 public  Button3D(Context mActivityContext){
-    this.mActivityContext=mActivityContext;
-    updateScreenSize();
+    this.mActivityContext= mActivityContext;
+
+
+
 
     mesh.setShader("button","button");
     LoadObjectAssets o=new LoadObjectAssets(mActivityContext);
@@ -165,7 +164,7 @@ private void  removedupe(){
 
    }
     private Point get2dPoint(float [] point, float [] viewMatrix,
-                             float [] projectionMatrix , float[] mModelMatrix, int width, int height) {
+                             float [] projectionMatrix , float[] mModelMatrix) {
 
 
 
@@ -178,10 +177,11 @@ private void  removedupe(){
         float[] point3D = new float[point.length];
         Matrix.multiplyMV(point3D,0,viewProjectionMatrix,0,point,0);
 
-        int winX = (int) Math.round((( point3D[0]/point3D[3] + 1 ) / 2.0) *width);
+        int winX = (int) Math.round((( point3D[0]/point3D[3] + 1 ) / 2.0) *GLview.width);
 
-        int winY = (int) Math.round((( 1 - point3D[1]/point3D[3] ) / 2.0) *height );
-        //System.out.println(winX+"  ff "+winY);
+        int winY = (int) Math.round((( 1 - point3D[1]/point3D[3] ) / 2.0) *GLview.height);
+        System.out.println(winX+"  ff "+winY);
+        System.out.println(GLview.width+"  dd "+GLview.height);
         return new Point(winX,winY);
     }
    public FinalMesh getMesh(){
@@ -221,7 +221,7 @@ private void  removedupe(){
     public List<Point > get2Dcords() {
          List<Point > win=new ArrayList<>(4);
         for (float[] c:corners) {
-           win.add(get2dPoint(c,viweMatrix,perspectiMatrix,modelMatrix,width,height));
+           win.add(get2dPoint(c,viweMatrix,perspectiMatrix,modelMatrix));
         }
         return win;
     }

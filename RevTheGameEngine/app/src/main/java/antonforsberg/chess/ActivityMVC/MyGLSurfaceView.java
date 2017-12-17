@@ -64,22 +64,22 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
         float x = e.getX(index);
         float y = e.getY(index);
+        float dx = x - mPreviousX;
+        float dy = y - mPreviousY;
 
 
-
+        System.out.println(x+"  "+y);
+        System.out.println(action);
+        System.out.println(MotionEvent.ACTION_POINTER_UP);
         switch (action) {
-            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_MOVE: break;
 
-                    float dx = x - mPreviousX;
-                    float dy = y - mPreviousY;
-
-
-            break;
-
-            case MotionEvent.ACTION_DOWN:
-            break;
+            case MotionEvent.ACTION_DOWN: break;
             case MotionEvent.ACTION_UP:
-            break;
+                for (int i = 0; i <pressListeners.size() ; i++) {
+                    pressListeners.get(i).press(x,y);
+                }
+                break;
 
             case MotionEvent.ACTION_POINTER_DOWN:   break;
 
@@ -87,6 +87,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 for (int i = 0; i <pressListeners.size() ; i++) {
                     pressListeners.get(i).press(x,y);
                 }
+
                 break;
         }
 
