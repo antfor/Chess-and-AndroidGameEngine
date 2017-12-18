@@ -2,16 +2,14 @@ package antonforsberg.chess.Chess.Game.Logic;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.opengl.GLSurfaceView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import antonforsberg.chess.Animations.MatrixInterpolation;
 import antonforsberg.chess.Chess.Buttons.SelectedButton;
 import antonforsberg.chess.Chess.ChessObjects.BoardObject;
 import antonforsberg.chess.Chess.Enums.ColorP;
-import antonforsberg.chess.Chess.Enums.DeadorAlive;
 import antonforsberg.chess.Chess.Game.Controller;
 import antonforsberg.chess.Chess.Game.Logic.ListenerInterface.MoveObserver;
 import antonforsberg.chess.Chess.Game.Logic.ListenerInterface.SelectedObserver;
@@ -32,6 +30,12 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
     private Player currentPlayer;
     private Player watingPlayer;
     private Controller controller;
+    private boolean playerchange;
+    private float[] blackModelMatrix= new float[16];
+    private float[] whiteModelMatrix= new float[16];
+    private float[] start= whiteModelMatrix;
+    private float[] end= blackModelMatrix;
+    private MatrixInterpolation matrixInterpolation =new MatrixInterpolation(500);
 
     public GameLogic(Context mActivityContext){
         this.mActivityContext=mActivityContext;
@@ -39,6 +43,7 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
         controller=new Controller(mActivityContext,this);
         currentPlayer=new White(mActivityContext);
         watingPlayer=new Black(mActivityContext);
+
         updateBoard();
         addSelectedButtons();
     }
@@ -58,6 +63,7 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
 
     }
 
+    /*
     public void draw(float [] mMVPMatrix,float [] mProjectionMatrix,float [] mViewMatrix,float [] mModelMatrix){
         RotQ rotq=new RotQ();
 
@@ -84,6 +90,46 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
         watingPlayer.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
     }
     }
+    */
+
+    public void draw(float [] mMVPMatrix,float [] mProjectionMatrix,float [] mViewMatrix,float [] mModelMatrix){
+        RotQ rotq=new RotQ();
+
+        System.arraycopy(mModelMatrix, 0,    whiteModelMatrix , 0,    16);
+        rotq.rotate(0,1,0,180);
+        rotq.rotate(1,0,0,55);
+        rotq.matrix(whiteModelMatrix);
+
+        rotq.startrot();
+
+        System.arraycopy(mModelMatrix, 0,    blackModelMatrix , 0,    16);
+        rotq.rotate(1,0,0,55);
+        rotq.matrix(blackModelMatrix);
+
+        if(false&&playerchange){
+            playerchange=false;
+            if(currentPlayer.getColor().equals(ColorP.White)){
+
+                start=whiteModelMatrix;
+                end=blackModelMatrix;
+            }
+            else {
+                start=blackModelMatrix;
+                end=whiteModelMatrix;
+            }
+            matrixInterpolation.startaAimate();
+        }
+
+        float[] model= matrixInterpolation.animate(start,end);
+
+        boardObject.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, model);
+        controller.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, model);
+        currentPlayer.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, model);
+        watingPlayer.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, model);
+
+
+    }
+
 
     private void NextTurn(){
         selected=null;
@@ -92,7 +138,7 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
         Player temp=currentPlayer;
         currentPlayer=watingPlayer;
         watingPlayer=temp;
-
+        playerchange=true;
     }
 
     private void moveSelectedTo(Point p){

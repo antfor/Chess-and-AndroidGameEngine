@@ -15,29 +15,13 @@ import antonforsberg.chess.comobject.objectAssets.ObjectInterface.BasicObject;
  * Created by Anton Forsberg on 2017-12-05.
  */
 
-public class KnightObject implements BasicObject {
-    private FinalMesh mesh = new FinalMesh();
-    private Context mActivityContext;
-    private Pice p;
-    private float[] modelMatrix = new float[16];
-
+public class KnightObject extends PiceObject {
 
     public KnightObject(Context context, Pice pice) {
-        mActivityContext = context;
-        p = pice;
-        loadAssets();
+        super(context,pice);
     }
 
 
-    @Override
-    public void draw(float[] mMVPMatrix, float[] mProjectionMatrix, float[] mViewMatrix, float[] mModelMatrix) {
-
-        System.arraycopy(mModelMatrix, 0, modelMatrix, 0, 16);
-        Matrix.translateM(modelMatrix, 0, (-0.875f) + 0.25f * p.getPos().y, 0, (0.875f) - 0.25f * p.getPos().x);
-
-        mesh.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, modelMatrix);
-
-    }
 
     @Override
     public void loadAssets() {

@@ -13,6 +13,7 @@ import java.util.List;
 public abstract class Pice
 {
     protected Point pos;
+    private Point oldPos;
     final protected ColorP col;
     protected BasicObject model;
     protected Context context;
@@ -21,6 +22,7 @@ public abstract class Pice
     public Pice(Context context,Point p, ColorP c) {
         col = c;
         pos = p;
+        oldPos=new Point(pos);
         this.context=context;
         setModel();
     }
@@ -33,10 +35,12 @@ public abstract class Pice
     public Point getPos() {
         return new Point(pos);
     }
+    public Point getOldPos(){return new Point(oldPos);}
 
     public void Move(Point p) {
-     //   MoveAnimation(p);
+        oldPos=new Point(pos);
         pos = new Point(p);
+
     }
 
 

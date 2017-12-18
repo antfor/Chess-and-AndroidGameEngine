@@ -9,6 +9,7 @@ import android.opengl.Matrix;
 import android.os.SystemClock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -226,6 +227,7 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
 
 
         GLES30.glDepthMask(true);
+
 
         for (int i = 0; i < draweblePerspectivs.size(); i++) {
             draweblePerspectivs.get(i).draw(mMVPMatrix,mProjectionMatrix,mViewMatrix, mModelMatrix);
