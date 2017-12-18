@@ -88,6 +88,10 @@ public void qmulti(){
         this.z = zz;
         this.w = ww;
     }
+
+    public Quat4d getq(){
+        return new Quat4d(qx,qy,qz,qw);
+    }
 public void getmatq(float[] Matrix){
 
     float m00,m01,m02,m10,m11,m12,m20,m21,m22;
@@ -131,6 +135,45 @@ public void getmatq(float[] Matrix){
     }
 
 }
+
+
+    public final void quatToMatrix(Quat4d q,float[] Matrix){
+        float sqw = q.w*q.w;
+        float sqx = q.x*q.x;
+        float sqy = q.y*q.y;
+        float sqz = q.z*q.z;
+/*
+        float m00=Matrix[0];
+        float m01=Matrix[1];
+        float m02=Matrix[2];
+        float m10=Matrix[4];
+        float m11=Matrix[5];
+        float m12=Matrix[6];
+        float m20=Matrix[8];
+        float m21=Matrix[9];
+        float m22=Matrix[10];
+*/
+        // invs (inverse square length) is only required if quaternion is not already normalised
+        float invs = 1 / (sqx + sqy + sqz + sqw);
+        Matrix[0] = ( sqx - sqy - sqz + sqw)*invs ; // since sqw + sqx + sqy + sqz =1/invs*invs
+        Matrix[5] = (-sqx + sqy - sqz + sqw)*invs ;
+        Matrix[10] = (-sqx - sqy + sqz + sqw)*invs ;
+
+        float tmp1 = q.x*q.y;
+        float tmp2 = q.z*q.w;
+        Matrix[4] = 2.0f * (tmp1 + tmp2)*invs ;
+        Matrix[1] = 2.0f * (tmp1 - tmp2)*invs ;
+
+        tmp1 = q.x*q.z;
+        tmp2 = q.y*q.w;
+        Matrix[8] = 2.0f * (tmp1 - tmp2)*invs ;
+        Matrix[2] = 2.0f * (tmp1 + tmp2)*invs ;
+        tmp1 = q.y*q.z;
+        tmp2 = q.x*q.w;
+        Matrix[9] = 2.0f * (tmp1 + tmp2)*invs ;
+        Matrix[6] = 2.0f * (tmp1 - tmp2)*invs ;
+    }
+
 
 public void matrix(float[] Matrix){
 

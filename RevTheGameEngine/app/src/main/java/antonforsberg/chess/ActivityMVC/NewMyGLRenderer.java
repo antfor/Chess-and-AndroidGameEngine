@@ -187,13 +187,14 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
 
         // Create a new perspective projection matrix. The height will stay the same
         // while the width will vary as per aspect ratio.
+        
         final float ratio = (float) width /(float) height;
         final float left = -ratio;
         final float right = ratio;
         final float bottom = -1.0f;
         final float top = 1.0f;
         final float near = 1.0f;
-        final float far = 10.0f;
+        final float far = 1000.0f;
         ScreenData screenData=new ScreenData();
         // TODO: 2017-12-06 add listneer to screenData
         screenData.setRatio(ratio);
@@ -229,6 +230,7 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
         GLES30.glDepthMask(true);
 
 
+    //    Matrix.translateM(mModelMatrix,0,0,0,0.5f);
         for (int i = 0; i < draweblePerspectivs.size(); i++) {
             draweblePerspectivs.get(i).draw(mMVPMatrix,mProjectionMatrix,mViewMatrix, mModelMatrix);
         }

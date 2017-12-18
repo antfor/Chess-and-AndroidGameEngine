@@ -2,6 +2,9 @@ package antonforsberg.chess.Chess.Game.Logic.PiecesLogic;
 
 import android.content.Context;
 import android.graphics.Point;
+
+import antonforsberg.chess.Animations.IMatrixInterpolation;
+import antonforsberg.chess.Chess.ChessObjects.PiecesObject.PiceObject;
 import antonforsberg.chess.Chess.Enums.ColorP;
 import antonforsberg.chess.Chess.Enums.DeadorAlive;
 import antonforsberg.chess.Chess.Game.Logic.GameLogic;
@@ -10,12 +13,11 @@ import antonforsberg.chess.comobject.objectAssets.ObjectInterface.BasicObject;
 
 import java.util.List;
 
-public abstract class Pice
-{
+public abstract class Pice implements IMatrixInterpolation{
     protected Point pos;
     private Point oldPos;
     final protected ColorP col;
-    protected BasicObject model;
+    protected PiceObject model;
     protected Context context;
 
 
@@ -25,6 +27,7 @@ public abstract class Pice
         oldPos=new Point(pos);
         this.context=context;
         setModel();
+
     }
 
     public ColorP getColur() {
@@ -38,15 +41,11 @@ public abstract class Pice
     public Point getOldPos(){return new Point(oldPos);}
 
     public void Move(Point p) {
+        model.startAnimating();
         oldPos=new Point(pos);
         pos = new Point(p);
-
     }
 
-
-    public void MoveAnimation(Point p) {
-
-    }
 
 
     public void draw(float[] mMVPMatrix, float[] mProjectionMatrix, float[] mViewMatrix, float[] mModelMatrix) {
@@ -59,7 +58,8 @@ public abstract class Pice
 
     protected abstract void setModel();
 
-
-
+    public boolean interpoltate(){
+       return model.interpoltate();
+    }
 
 }

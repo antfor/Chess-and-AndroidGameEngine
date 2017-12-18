@@ -68,9 +68,6 @@ public class MyGLSurfaceView extends GLSurfaceView {
         float dy = y - mPreviousY;
 
 
-        System.out.println(x+"  "+y);
-        System.out.println(action);
-        System.out.println(MotionEvent.ACTION_POINTER_UP);
         switch (action) {
             case MotionEvent.ACTION_MOVE: break;
 

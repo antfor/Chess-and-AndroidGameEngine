@@ -33,7 +33,7 @@ public abstract class PiceObject implements BasicObject,IMatrixInterpolation {
 
 
     @Override
-    public void draw(float[] mMVPMatrix, float[] mProjectionMatrix, float[] mViewMatrix, float[] mModelMatrix) {
+    public synchronized void draw(float[] mMVPMatrix, float[] mProjectionMatrix, float[] mViewMatrix, float[] mModelMatrix) {
 
         System.arraycopy(mModelMatrix, 0,    modelMatrix , 0,    16);
 
@@ -44,7 +44,7 @@ public abstract class PiceObject implements BasicObject,IMatrixInterpolation {
         Matrix.translateM(oldModelMatrix, 0, (-0.875f)+0.25f*p.getOldPos().y, 0, (0.875f)-0.25f*p.getOldPos().x);
 
         if(!lastPoint.equals(p.getPos())){
-            matrixInterpolation.startaAimate();
+           // matrixInterpolation.startaAimate();
         }
 
         mesh. draw(mMVPMatrix,mProjectionMatrix,mViewMatrix, matrixInterpolation.animate(oldModelMatrix,modelMatrix));
@@ -62,6 +62,10 @@ public abstract class PiceObject implements BasicObject,IMatrixInterpolation {
     @Override
     public boolean interpoltate() {
         return matrixInterpolation.isAnimating();
+    }
+
+    public void startAnimating(){
+        matrixInterpolation.startaAimate();
     }
 
 }

@@ -3,6 +3,8 @@ package antonforsberg.chess.Animations;
 import java.util.Arrays;
 
 import antonforsberg.chess.Interfaces.Draweble;
+import antonforsberg.chess.comobject.Quat4d;
+import antonforsberg.chess.comobject.RotQ;
 
 /**
  * Created by Anton Forsberg on 2017-12-18.
@@ -57,27 +59,30 @@ public class MatrixInterpolation {
 
        translatInterpolation(start,end,timedif);
        rotateInterpolation(start,end,timedif);
-       middle[15]=1;
+       middle[15]=end[15];
 
 
        if(timedif==1){
            stopanimation();
        }
-
+/*
        System.out.println("start");
        System.out.println(Arrays.toString(start));
        System.out.println(Arrays.toString(middle));
        System.out.println(Arrays.toString(end));
        System.out.println("stop");
+       */
    }
 
     private void rotateInterpolation(float[] start, float[] end, double timedif) {
-        for (int i = 0; i <3 ; i++) {
-            for (int n = 0; n <3 ; n++) {
-
-            }
-        }
+      RotQ rotQ = new RotQ();
+        rotQ.getmatq(start);
+        Quat4d quat4d =new Quat4d(rotQ.getq());
+        rotQ.getmatq(end);
+        quat4d.slerp(new Quat4d(rotQ.getq()),(float) timedif);
+        rotQ.quatToMatrix(quat4d,middle);
     }
+
 
     private void translatInterpolation(float[] start,float[] end,double timedif){
        for (int i = 0; i <3 ; i++) {

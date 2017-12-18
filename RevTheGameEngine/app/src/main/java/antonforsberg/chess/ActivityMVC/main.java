@@ -33,6 +33,7 @@ public class main extends Activity {
         // as the ContentView for this Activity.
 
        //  updateLoop =new UpdateLoop();
+        System.out.println("its nothing you can doooooo!!!");
         mGLView = new MyGLSurfaceView(this);
         setContentView(mGLView);
      //   updateLoop.start();
@@ -50,7 +51,7 @@ public class main extends Activity {
 
     @Override
     protected void onPause() {
-        mGLView.setVisibility(View.GONE);
+      //  mGLView.setVisibility(View.GONE);
         super.onPause();
        // updateLoop.pause();
     }
@@ -82,7 +83,7 @@ public class main extends Activity {
 
         }
 
-      /*
+
         if (hasFocus) {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(
@@ -92,7 +93,7 @@ public class main extends Activity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
-                             */
+
     }
 
 

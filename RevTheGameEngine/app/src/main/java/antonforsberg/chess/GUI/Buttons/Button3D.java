@@ -180,8 +180,8 @@ private void  removedupe(){
         int winX = (int) Math.round((( point3D[0]/point3D[3] + 1 ) / 2.0) *GLview.width);
 
         int winY = (int) Math.round((( 1 - point3D[1]/point3D[3] ) / 2.0) *GLview.height);
-        System.out.println(winX+"  ff "+winY);
-        System.out.println(GLview.width+"  dd "+GLview.height);
+      //  System.out.println(winX+"  ff "+winY);
+      //  System.out.println(GLview.width+"  dd "+GLview.height);
         return new Point(winX,winY);
     }
    public FinalMesh getMesh(){

@@ -3,9 +3,12 @@ package antonforsberg.chess.Chess.Game.Logic;
 import android.content.Context;
 import android.graphics.Point;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
+import antonforsberg.chess.Animations.IMatrixInterpolation;
+import antonforsberg.chess.Animations.IisInterpolating;
 import antonforsberg.chess.Animations.MatrixInterpolation;
 import antonforsberg.chess.Chess.Buttons.SelectedButton;
 import antonforsberg.chess.Chess.ChessObjects.BoardObject;
@@ -31,11 +34,14 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
     private Player watingPlayer;
     private Controller controller;
     private boolean playerchange;
+    private boolean PiceAnimation;
+
     private float[] blackModelMatrix= new float[16];
     private float[] whiteModelMatrix= new float[16];
     private float[] start= whiteModelMatrix;
     private float[] end= blackModelMatrix;
     private MatrixInterpolation matrixInterpolation =new MatrixInterpolation(500);
+
 
     public GameLogic(Context mActivityContext){
         this.mActivityContext=mActivityContext;
@@ -96,7 +102,7 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
         RotQ rotq=new RotQ();
 
         System.arraycopy(mModelMatrix, 0,    whiteModelMatrix , 0,    16);
-        rotq.rotate(0,1,0,180);
+        rotq.rotate(0,1,0,-180);
         rotq.rotate(1,0,0,55);
         rotq.matrix(whiteModelMatrix);
 
@@ -106,7 +112,11 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
         rotq.rotate(1,0,0,55);
         rotq.matrix(blackModelMatrix);
 
-        if(false&&playerchange){
+        Interpoltating();
+
+        if(!PiceAnimation && playerchange){
+
+
             playerchange=false;
             if(currentPlayer.getColor().equals(ColorP.White)){
 
@@ -142,10 +152,10 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
     }
 
     private void moveSelectedTo(Point p){
-        System.out.println(selected.getPos());
+
         board[selected.getPos().x][selected.getPos().y]=null;
         selected.Move(p);
-        System.out.println(selected.getPos());
+
         board[selected.getPos().x][selected.getPos().y]=selected;
 
         NextTurn();
@@ -199,7 +209,7 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
 
     @Override
     public void actOnSelectedButton(Pice pice, SelectedButton selectedButton){
-        if( pice.getColur().equals(currentPlayer.getColor())){
+        if((!matrixInterpolation.isAnimating() &&!PiceAnimation )&& pice.getColur().equals(currentPlayer.getColor())){
             setSelected(pice);
             controller.setSelectedButtonToDraw(selectedButton);
         }
@@ -224,4 +234,25 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
         watingPlayer.removePice(p);
         controller.deleteOneSelectedButton(p);
     }
+
+    private void Interpoltating(){
+       List<Pice> l1=currentPlayer.getPices();
+        List<Pice> l2= watingPlayer.getPices();
+        for (int i = 0; i <l1.size() ; i++) {
+            if(l1.get(i).interpoltate()){
+                PiceAnimation=true;
+                return;
+            }
+        }
+        for (int i = 0; i <l2.size() ; i++) {
+            if(l2.get(i).interpoltate()){
+                PiceAnimation=true;
+                return;
+            }
+        }
+
+        PiceAnimation=false;
+    }
+
+
 }
