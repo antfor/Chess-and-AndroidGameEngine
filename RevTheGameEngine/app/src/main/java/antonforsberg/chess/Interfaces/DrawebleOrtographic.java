@@ -5,5 +5,5 @@ package antonforsberg.chess.Interfaces;
  */
 
 public interface DrawebleOrtographic {
-    void draw(float [] mMVPMatrix,float [] mProjectionMatrix,float [] mViewMatrix,float [] mModelMatrix);
+    void drawO(float [] mMVPMatrix,float [] mProjectionMatrix,float [] mViewMatrix,float [] mModelMatrix);
 }

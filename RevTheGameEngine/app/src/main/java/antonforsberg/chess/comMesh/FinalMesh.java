@@ -118,6 +118,7 @@ public class FinalMesh {
             case "metal":   break;
             case "button": fragmentShader=getButtonFS(); break;
             case "NorCol":fragmentShader=Normal_and_ColorFS();break;
+            case "opace":  fragmentShader=opaceFS();break;
             default: System.out.println("no fragmentshader whit that name dose not exist"); break;
         }
 
@@ -1048,6 +1049,25 @@ private boolean usetex=false;
            // "FragColor=vec4(v_Color);"+
             "}";}
 
+
+    private String opaceFS(){
+        return  "#version 300 es"+
+                "\n precision highp float;                            \n" +
+                "in vec3 v_Position;" +
+                "in vec4 v_Color;                              \n" +
+                "uniform vec3 u_camPos;       " +
+                "uniform sampler2D u_Texture; " +
+                "in vec2 v_TexCoordinate;   \n" +
+
+                " out vec4 FragColor; \n" +
+                "void main() {     \n" +
+
+                //"FragColor=(texture(u_Texture, v_TexCoordinate)*(v_Color));"+
+                 "FragColor=vec4(v_Color);"+
+                "}";
+    }
+
+
     private String getTexVertexShader()
     {
         // Define our per-pixel lighting shader.
@@ -1749,7 +1769,12 @@ private boolean usetex=false;
             "\n"+
 
                  "   vec4 col= v_Color*diffuse;\n" +
-             ///"col+=0.1;"+
+            /* "col+=0.1;"+
+             "col=min(col,1.0f);"+
+             "col.x=pow(col.x, 2.2f);"+
+             "col.y=pow(col.y, 2.2f);"+
+             "col.z=pow(col.z, 2.2f);"+
+*/
                 "    FragColor =vec4(col.x,col.y,col.z,1.0f);"+
 
                 "}                                                                     \t\n";

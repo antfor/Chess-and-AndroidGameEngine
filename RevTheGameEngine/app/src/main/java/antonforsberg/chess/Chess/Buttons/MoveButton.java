@@ -26,7 +26,7 @@ public class MoveButton extends Button3D {
         this.logic=logic;
         this.mActivityContext=mActivityContext;
         loadAssets();
-        loadVertex();
+
     }
 
     @Override
@@ -60,7 +60,7 @@ public class MoveButton extends Button3D {
         super.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix,  modelMatrix);
     }
 
-    private void loadVertex(){}
+
 }
 
 

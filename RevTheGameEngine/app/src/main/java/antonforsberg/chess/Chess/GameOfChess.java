@@ -1,33 +1,22 @@
 package antonforsberg.chess.Chess;
 
 import android.content.Context;
-import android.graphics.Point;
-import android.opengl.GLSurfaceView;
-import android.opengl.Matrix;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import antonforsberg.chess.Chess.Buttons.KillButton;
-import antonforsberg.chess.Chess.Buttons.MoveButton;
-import antonforsberg.chess.Chess.Buttons.SelectedButton;
-import antonforsberg.chess.Chess.Game.Controller;
 import antonforsberg.chess.Chess.Game.Logic.GameLogic;
-import antonforsberg.chess.Chess.Game.Logic.ListenerInterface.MoveObserver;
-import antonforsberg.chess.Chess.Game.Logic.ListenerInterface.SelectedObserver;
-import antonforsberg.chess.Chess.Game.Logic.ListenerInterface.ThreatenedObserver;
-import antonforsberg.chess. Chess.Player.Black;
-import antonforsberg.chess. Chess.Player.White;
+import antonforsberg.chess.Chess.Ui.UserInterface;
 import antonforsberg.chess.Interfaces.DeltaTimeListener;
+import antonforsberg.chess.Interfaces.DrawebleOrtographic;
 import antonforsberg.chess.Interfaces.DraweblePerspectiv;
 import antonforsberg.chess.UserInput.UiPressListener;
 import antonforsberg.chess.comobject.RotQ;
 
 
-public class GameOfChess implements DraweblePerspectiv,UiPressListener,DeltaTimeListener {
+public class GameOfChess implements DraweblePerspectiv,UiPressListener,DeltaTimeListener,DrawebleOrtographic {
 
     private GameLogic gameLogic;
+    private UserInterface ui;
     private Context mActivityContext;
+    private boolean newGame;
 
 
     public GameOfChess(Context mActivityContext){
@@ -35,12 +24,17 @@ public class GameOfChess implements DraweblePerspectiv,UiPressListener,DeltaTime
 
     }
 
-    public void newGame_TwoPlayers(){
+    private void newGame_TwoPlayers(){
         newGameLogic();
     }
 
     public void draw(float [] mMVPMatrix,float [] mProjectionMatrix,float [] mViewMatrix,float [] mModelMatrix){
         RotQ.translateM(mModelMatrix,0, 0, 0f, -2.42f);
+
+        if(newGame){
+            newGame_TwoPlayers();
+            newGame=false;
+        }
 
           if(gameLogic==null) {newGameLogic();}
 
@@ -55,12 +49,25 @@ public class GameOfChess implements DraweblePerspectiv,UiPressListener,DeltaTime
 
     @Override
     public void press(float x, float y) {
-        gameLogic.ButtonpressEvent(x,y);
+        if(!ui.ButtonpressEvent(x, y)) {
+            gameLogic.ButtonpressEvent(x, y);
+        }
     }
 
 
     @Override
     public void deltaTimeUpdate(double dt) {
 
+    }
+
+    @Override
+    public void drawO(float[] mMVPMatrix, float[] mProjectionMatrix, float[] mViewMatrix, float[] mModelMatrix) {
+        if(ui==null) { ui=new UserInterface(gameLogic,this,mActivityContext);}
+            ui.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
+
+    }
+
+    public void newGame(){
+        newGame=true;
     }
 }

@@ -40,6 +40,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
         gameOfChess=new GameOfChess(context);
         mRenderer.addDPP(gameOfChess);
+        mRenderer.addOrtP(gameOfChess);
         pressListeners.add(gameOfChess);
 
       // updateLoop.addDeltaTimeListnerer(gameOfChess);

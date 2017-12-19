@@ -23,6 +23,7 @@ import antonforsberg.chess. Chess.Player.Black;
 import antonforsberg.chess.Chess.Player.Player;
 import antonforsberg.chess. Chess.Player.White;
 import antonforsberg.chess.comobject.RotQ;
+import antonforsberg.chess.comobject.objectAssets.ObjectInterface.BasicObject;
 
 public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObserver {
 
@@ -42,6 +43,7 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
     private float[] start= whiteModelMatrix;
     private float[] end= blackModelMatrix;
     private MatrixInterpolation matrixInterpolation =new MatrixInterpolation(500);
+    private List<BasicObject> uiObjects=new ArrayList<>(10);
 
 
     public GameLogic(Context mActivityContext){
@@ -55,6 +57,9 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
         addSelectedButtons();
     }
 
+    public void addUiObject(BasicObject o){
+        uiObjects.add(o);
+    }
     public void ButtonpressEvent(float x, float y){
         controller.ButtonpressEvent(x,y);
     }
@@ -132,6 +137,7 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
         }
 
         float[] model= matrixInterpolation.animate(start,end);
+
 
         boardObject.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, model);
         controller.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, model);

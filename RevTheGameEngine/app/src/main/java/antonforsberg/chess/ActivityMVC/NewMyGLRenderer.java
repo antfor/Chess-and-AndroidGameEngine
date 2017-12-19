@@ -208,6 +208,8 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
 
         GLview.width=width;
         GLview.height=height;
+        GLview.ratio=ratio;
+        GLview.updated();
     }
 
     @Override
@@ -252,8 +254,11 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
             draweblePerspectivs.get(i).draw(mMVPMatrix,mProjectionMatrix,mViewMatrix, mModelMatrix);
         }
 
+        Matrix.setIdentityM(mModelMatrix, 0);
+        Matrix.setIdentityM(mViewMatrix, 0);
+
         for (int i = 0; i < drawebleOrtographics.size(); i++) {
-            drawebleOrtographics.get(i).draw(mMVPMatrix,mUiMatrix,mViewMatrix, mModelMatrix);
+            drawebleOrtographics.get(i).drawO(mMVPMatrix,mUiMatrix,mViewMatrix, mModelMatrix);
         }
 
 

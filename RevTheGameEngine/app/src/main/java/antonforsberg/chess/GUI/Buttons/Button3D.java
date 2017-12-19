@@ -6,6 +6,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,15 +23,15 @@ import antonforsberg.chess.comobject.LoadObjectAssets;
  * Created by Anton Forsberg on 2017-12-01.
  */
 
-public class Button3D {
+public abstract class Button3D {
     protected FinalMesh mesh=new FinalMesh();
     private Context mActivityContext;
    private float[] viweMatrix= new float[16];
     private float[] perspectiMatrix= new float[16];
    private float[] modelMatrix= new float[16];
     private boolean selected;
-    private float[] colurs=new float[24];
-    private float[] colornotslected=new float[24];
+   protected float[] colurs=new float[24];
+    protected float[] colornotslected=new float[24];
     private int pointerid;
     private List<float[]> corners=new ArrayList<>(4);
 
@@ -260,5 +261,6 @@ private void  removedupe(){
         }
     }
 
-     public void function(){}
+
+     public abstract void function();
 }
