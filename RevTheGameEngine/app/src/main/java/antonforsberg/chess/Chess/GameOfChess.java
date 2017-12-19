@@ -21,6 +21,7 @@ import antonforsberg.chess. Chess.Player.White;
 import antonforsberg.chess.Interfaces.DeltaTimeListener;
 import antonforsberg.chess.Interfaces.DraweblePerspectiv;
 import antonforsberg.chess.UserInput.UiPressListener;
+import antonforsberg.chess.comobject.RotQ;
 
 
 public class GameOfChess implements DraweblePerspectiv,UiPressListener,DeltaTimeListener {
@@ -39,7 +40,8 @@ public class GameOfChess implements DraweblePerspectiv,UiPressListener,DeltaTime
     }
 
     public void draw(float [] mMVPMatrix,float [] mProjectionMatrix,float [] mViewMatrix,float [] mModelMatrix){
-        Matrix.translateM(mModelMatrix, 0, 0, 0f, -2.42f);
+        RotQ.translateM(mModelMatrix,0, 0, 0f, -2.42f);
+
           if(gameLogic==null) {newGameLogic();}
 
             gameLogic.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);

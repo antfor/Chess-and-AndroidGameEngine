@@ -4,6 +4,7 @@ import android.opengl.Matrix;
 import android.util.FloatMath;
 
 import static java.lang.Math.cos;
+import static java.lang.Math.floor;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 
@@ -175,9 +176,14 @@ public void getmatq(float[] Matrix){
     }
 
 
-public void matrix(float[] Matrix){
+public void matrix(float[] matrix){
 
     float x2, y2, z2, xx, xy, xz, yy, yz, zz, wx, wy, wz;
+
+    float sx =(Matrix.length(matrix[0],matrix[4],matrix[8]));
+    float sy =(Matrix.length(matrix[0+1],matrix[4+1],matrix[8+1]));
+    float sz =(Matrix.length(matrix[0+2],matrix[4+2],matrix[8+2]));
+
 
     // calculate coefficients
     x2 = x + x;
@@ -189,21 +195,53 @@ public void matrix(float[] Matrix){
     wx = w * x2;   wy = w * y2;   wz = w * z2;
 
 
-    Matrix[0] = 1.0f - (yy + zz);
-    Matrix[1] = xy - wz;
-    Matrix[2] = xz + wy;
+    matrix[0] = 1.0f - (yy + zz);
+    matrix[1] = xy - wz;
+    matrix[2] = xz + wy;
 
 
-    Matrix[4] = xy + wz;
-    Matrix[5] = 1.0f - (xx + zz);
-    Matrix[6] = yz - wx;
+    matrix[4] = xy + wz;
+    matrix[5] = 1.0f - (xx + zz);
+    matrix[6] = yz - wx;
 
-    Matrix[8] = xz - wy;
-    Matrix[9] = yz + wx;
-    Matrix[10] = 1.0f - (xx + yy);
+    matrix[8] = xz - wy;
+    matrix[9] = yz + wx;
+    matrix[10] = 1.0f - (xx + yy);
 
+    Matrix.scaleM(matrix,0,sx,sy,sz);
 }
 
+    //gammla matrix metod
+    public void matrixNoScale(float[] Matrix){
+
+        float x2, y2, z2, xx, xy, xz, yy, yz, zz, wx, wy, wz;
+
+
+
+        // calculate coefficients
+        x2 = x + x;
+        y2 = y + y;
+        z2 = z + z;
+
+        xx = x * x2;   xy = x * y2;   xz = x * z2;
+        yy = y * y2;   yz = y * z2;   zz = z * z2;
+        wx = w * x2;   wy = w * y2;   wz = w * z2;
+
+
+        Matrix[0] = 1.0f - (yy + zz);
+        Matrix[1] = xy - wz;
+        Matrix[2] = xz + wy;
+
+
+        Matrix[4] = xy + wz;
+        Matrix[5] = 1.0f - (xx + zz);
+        Matrix[6] = yz - wx;
+
+        Matrix[8] = xz - wy;
+        Matrix[9] = yz + wx;
+        Matrix[10] = 1.0f - (xx + yy);
+
+    }
     public void qrotx (double deg,float[] vec,float[] Matrix){
         deg=Math.toRadians(deg);
         p[0]=0;
@@ -273,5 +311,18 @@ public void multi(){
         rotmat[0]=0.0f;
         rotmat[1]=1.0f;
         rotmat[2]=0.0f;
+    }
+
+    public static void translateM(float[] matrix,float offset,float x ,float y, float z){
+        matrix[12]+=x;
+        matrix[13]+=y;
+        matrix[14]+=z;
+    }
+    public static float[] getScale(float[] matrix){
+        float sx =(Matrix.length(matrix[0],matrix[4],matrix[8]));
+        float sy =(Matrix.length(matrix[0+1],matrix[4+1],matrix[8+1]));
+        float sz =(Matrix.length(matrix[0+2],matrix[4+2],matrix[8+2]));
+
+        return new  float[]{sx,sy,sz};
     }
 }

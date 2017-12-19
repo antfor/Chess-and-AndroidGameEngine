@@ -1,6 +1,7 @@
 package antonforsberg.chess.Chess.Game.Logic;
 
 import android.content.Context;
+import android.graphics.Matrix;
 import android.graphics.Point;
 
 import java.util.AbstractList;
@@ -103,13 +104,13 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
 
         System.arraycopy(mModelMatrix, 0,    whiteModelMatrix , 0,    16);
         rotq.rotate(0,1,0,-180);
-        rotq.rotate(1,0,0,55);
+      //  rotq.rotate(1,0,0,55);
         rotq.matrix(whiteModelMatrix);
 
         rotq.startrot();
 
         System.arraycopy(mModelMatrix, 0,    blackModelMatrix , 0,    16);
-        rotq.rotate(1,0,0,55);
+    //    rotq.rotate(1,0,0,55);
         rotq.matrix(blackModelMatrix);
 
         Interpoltating();

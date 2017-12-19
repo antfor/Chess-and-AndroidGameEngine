@@ -1,5 +1,7 @@
 package antonforsberg.chess.Animations;
 
+import android.opengl.Matrix;
+
 import java.util.Arrays;
 
 import antonforsberg.chess.Interfaces.Draweble;
@@ -53,26 +55,38 @@ public class MatrixInterpolation {
 
        double timedif= (System.currentTimeMillis()-Starttime)/animationLength;
 
+
+
        if(timedif>1){
            timedif=1;
        }
 
        translatInterpolation(start,end,timedif);
        rotateInterpolation(start,end,timedif);
+       scaleInterpolation(start,end,timedif);
        middle[15]=end[15];
 
 
        if(timedif==1){
            stopanimation();
        }
-/*
-       System.out.println("start");
+
        System.out.println(Arrays.toString(start));
        System.out.println(Arrays.toString(middle));
        System.out.println(Arrays.toString(end));
        System.out.println("stop");
-       */
+
    }
+
+    private void scaleInterpolation(float[] start, float[] end, double timedif) {
+       float[] ss= RotQ.getScale(start);
+       float[] se= RotQ.getScale(end);
+
+        for (int i = 0; i <3 ; i++) {
+            ss[i]=(float) (((se[i]-ss[i])*timedif)+ss[i]);
+        }
+        Matrix.scaleM(middle,0,ss[0],ss[1],ss[2]);
+    }
 
     private void rotateInterpolation(float[] start, float[] end, double timedif) {
       RotQ rotQ = new RotQ();

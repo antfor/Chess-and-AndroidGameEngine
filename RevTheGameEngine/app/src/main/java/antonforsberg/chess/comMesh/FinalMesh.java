@@ -1714,6 +1714,7 @@ private boolean usetex=false;
                 "\t// Transform the normal's orientation into eye space.\n" +
                 //    "    v_Normal = vec3(u_MVMatrix * vec4(a_Normal, 0.0));\n" +
                 "   v_Normal =vec3(mat3(transpose(inverse(u_MMatrix))) *a_Normal);  "+
+                "v_Normal=normalize(v_Normal);"+
 
                 "\t// gl_Position is a special variable used to store the final position.\n" +
                 "\t// Multiply the vertex by the matrix to get the final point in normalized screen coordinates.\n" +
@@ -1748,6 +1749,7 @@ private boolean usetex=false;
             "\n"+
 
                  "   vec4 col= v_Color*diffuse;\n" +
+             ///"col+=0.1;"+
                 "    FragColor =vec4(col.x,col.y,col.z,1.0f);"+
 
                 "}                                                                     \t\n";

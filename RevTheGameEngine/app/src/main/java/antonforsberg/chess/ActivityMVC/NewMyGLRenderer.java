@@ -123,7 +123,7 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
     }
 
 
-    RotQ rotq;
+    //RotQ rotq;
 
 
 
@@ -132,7 +132,8 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
         // Set the background clear color to black.
 
       //  GLES20.glClearColor(0.02f, 0.02f, 0.02f, 0.0f);
-        GLES30.glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
+     //   GLES30.glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
+        GLES30.glClearColor(98f/255f, 117f/255f, (127f/255f),0);
         //GLES30.glClearColor(0.8f, 0.8f, 0.8f, 0.0f);
 
         // GLES20.glEnable(GLES20.GL_CULL_FACE);
@@ -178,6 +179,7 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
 
     }
 
+    float ratio;
     @Override
     public void onSurfaceChanged(GL10 glUnused, int width, int height) {
 
@@ -187,8 +189,8 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
 
         // Create a new perspective projection matrix. The height will stay the same
         // while the width will vary as per aspect ratio.
-        
-        final float ratio = (float) width /(float) height;
+
+         ratio = (float) width /(float) height;
         final float left = -ratio;
         final float right = ratio;
         final float bottom = -1.0f;
@@ -220,6 +222,7 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
 
 
         Matrix.setIdentityM(mModelMatrix, 0);
+        Matrix.setIdentityM(mViewMatrix, 0);
 
 
         GLES30.glDepthMask(false);
@@ -230,7 +233,21 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
         GLES30.glDepthMask(true);
 
 
-    //    Matrix.translateM(mModelMatrix,0,0,0,0.5f);
+      /*  float fa =3;
+        Matrix.translateM(mModelMatrix,0,0,0,-ratio*fa);
+        Matrix.scaleM(mModelMatrix,0,ratio*fa,ratio*fa,ratio*fa);
+*/
+        RotQ rotq= new RotQ();
+        Matrix.translateM(mViewMatrix,0,0,-2f,-3);
+        rotq.rotate(1,0,0,55);
+
+        rotq.matrix(mViewMatrix);
+
+        float fa =16f/9f+((ratio-9f/16f)*16f/9f);
+       // Matrix.translateM(mModelMatrix,0,0,-fa,0);
+        Matrix.scaleM(mModelMatrix,0,fa,fa,fa);
+
+
         for (int i = 0; i < draweblePerspectivs.size(); i++) {
             draweblePerspectivs.get(i).draw(mMVPMatrix,mProjectionMatrix,mViewMatrix, mModelMatrix);
         }
@@ -242,6 +259,7 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
 
 
         Matrix.setIdentityM(mModelMatrix, 0);
+        Matrix.setIdentityM(mViewMatrix, 0);
 
     }
 }
