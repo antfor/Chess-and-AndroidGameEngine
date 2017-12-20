@@ -27,7 +27,7 @@ public class optionback extends Button2D implements Desplay {
 
     @Override
     public void viewUpdate() {
-        button2dPrecentage(0,0,0,0,1,1,4);
+        button2dPrecentage(0,0,0,0,1,1,5);
     }
 
     @Override

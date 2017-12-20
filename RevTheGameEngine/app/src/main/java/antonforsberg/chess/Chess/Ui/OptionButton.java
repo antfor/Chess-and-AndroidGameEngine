@@ -18,8 +18,9 @@ public class OptionButton extends Button2D {
 
 private Context context;
 private optionback back;
-private pausedText pausedText;
+private Text Text;
 private boolean preesed;
+private boolean  showvictory;
 private List<Desplay> buttons=new ArrayList<>(5);
     public OptionButton(Context mActivityContext) {
         super(mActivityContext);
@@ -27,7 +28,7 @@ private List<Desplay> buttons=new ArrayList<>(5);
         loadAssets();
         viewUpdate();
         back=new optionback(context);
-        pausedText=new pausedText(context);
+        Text=new Text(context);
 
 
     }
@@ -50,11 +51,21 @@ private List<Desplay> buttons=new ArrayList<>(5);
     public void draw(float [] mMVPMatrix,float [] mProjectionMatrix,float [] mViewMatrix,float [] mModelMatrix){
         if(preesed){
             back.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
-            pausedText.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
+
+
+            if(showvictory) {
+                Text.showVictory();
+            }
+            else {
+                Text.showPaused();
+            }
+            Text.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
+
             for (int i = 0; i < buttons.size(); i++) {
                 buttons.get(i).draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
 
             }
+
         }
 
         super.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
@@ -71,9 +82,16 @@ private List<Desplay> buttons=new ArrayList<>(5);
     for (int i = 0; i < buttons.size(); i++) {
         if(buttons.get(i).isPressed(x, y)){
             preesed=false;
+            showvictory=false;
         }
     }
     }
-        return false;
+        return preesed;
     }
+
+    public void setVictory(){
+        showvictory=true;
+        function();
+    }
+
 }

@@ -6,7 +6,9 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
+import antonforsberg.chess.Chess.Enums.ColorP;
 import antonforsberg.chess.Chess.Game.Logic.GameLogic;
+import antonforsberg.chess.Chess.Game.Logic.ListenerInterface.LogicObserver;
 import antonforsberg.chess.Chess.GameOfChess;
 import antonforsberg.chess.GUI.Buttons.Button3D;
 
@@ -14,16 +16,16 @@ import antonforsberg.chess.GUI.Buttons.Button3D;
  * Created by Anton Forsberg on 2017-12-19.
  */
 
-public class UserInterface {
+public class UserInterface implements LogicObserver{
 
     private Context mActivityContext;
     private List<Button3D> buttons= new ArrayList<>(5);
-
+    private  OptionButton optionButton;
 
     public UserInterface(GameLogic logic, GameOfChess gameOfChess, Context  context){
         mActivityContext=context;
-
-        OptionButton optionButton=new OptionButton(context);
+        logic.setLogicObserver(this);
+         optionButton=new OptionButton(context);
         optionButton.addButton(new replayButton(gameOfChess,context));
         addButton(optionButton);
 
@@ -46,5 +48,15 @@ public class UserInterface {
             }
         }
         return false;
+    }
+
+    @Override
+    public void gameVictory(ColorP colorP) {
+        optionButton.setVictory();
+    }
+
+    @Override
+    public void pawnUpgrade(ColorP colorP) {
+
     }
 }

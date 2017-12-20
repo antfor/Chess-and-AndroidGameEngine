@@ -44,6 +44,7 @@ public class GameOfChess implements DraweblePerspectiv,UiPressListener,DeltaTime
 
     private void newGameLogic(){
         gameLogic =new GameLogic(mActivityContext);
+        ui=new UserInterface(gameLogic,this,mActivityContext);
     }
 
 

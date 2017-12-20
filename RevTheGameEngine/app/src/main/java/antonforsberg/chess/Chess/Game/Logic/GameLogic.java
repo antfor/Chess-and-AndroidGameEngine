@@ -15,9 +15,11 @@ import antonforsberg.chess.Chess.Buttons.SelectedButton;
 import antonforsberg.chess.Chess.ChessObjects.BoardObject;
 import antonforsberg.chess.Chess.Enums.ColorP;
 import antonforsberg.chess.Chess.Game.Controller;
+import antonforsberg.chess.Chess.Game.Logic.ListenerInterface.LogicObserver;
 import antonforsberg.chess.Chess.Game.Logic.ListenerInterface.MoveObserver;
 import antonforsberg.chess.Chess.Game.Logic.ListenerInterface.SelectedObserver;
 import antonforsberg.chess.Chess.Game.Logic.ListenerInterface.ThreatenedObserver;
+import antonforsberg.chess.Chess.Game.Logic.PiecesLogic.King;
 import antonforsberg.chess.Chess.Game.Logic.PiecesLogic.Pice;
 import antonforsberg.chess. Chess.Player.Black;
 import antonforsberg.chess.Chess.Player.Player;
@@ -44,7 +46,7 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
     private float[] end= blackModelMatrix;
     private MatrixInterpolation matrixInterpolation =new MatrixInterpolation(500);
     private List<BasicObject> uiObjects=new ArrayList<>(10);
-
+    private LogicObserver logicObserver;
 
     public GameLogic(Context mActivityContext){
         this.mActivityContext=mActivityContext;
@@ -57,6 +59,10 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
         addSelectedButtons();
     }
 
+
+    public void setLogicObserver(LogicObserver o){
+        logicObserver=o;
+    }
     public void addUiObject(BasicObject o){
         uiObjects.add(o);
     }
@@ -238,6 +244,9 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
     private void killPice(Point point)
     {
         Pice p=board[point.x][point.y];
+        if(p instanceof King){
+           logicObserver.gameVictory(p.getColur());
+        }
         watingPlayer.removePice(p);
         controller.deleteOneSelectedButton(p);
     }
