@@ -196,7 +196,7 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
         final float bottom = -1.0f;
         final float top = 1.0f;
         final float near = 1.0f;
-        final float far = 1000.0f;
+        final float far = 10.0f;
         ScreenData screenData=new ScreenData();
         // TODO: 2017-12-06 add listneer to screenData
         screenData.setRatio(ratio);
@@ -204,14 +204,26 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
         screenData.setWidth(width);
 
         Matrix.frustumM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
+
+        calcProMatrix(width,height);
+
+
         Matrix.orthoM(mUiMatrix, 0, left, right, bottom, top, 0, 10);
 
+        GLview.mActivityContext=mActivityContext;
         GLview.width=width;
         GLview.height=height;
         GLview.ratio=ratio;
         GLview.updated();
     }
 
+    private void calcProMatrix(float width,float height){
+
+         if (height < width)  {
+            mProjectionMatrix[0] = 1 ;
+            mProjectionMatrix[5]= width / (height  );
+        }
+    }
     @Override
     public void onDrawFrame(GL10 glUnused) {
         float[] scratch = new float[16];
@@ -240,14 +252,12 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
         Matrix.scaleM(mModelMatrix,0,ratio*fa,ratio*fa,ratio*fa);
 */
         RotQ rotq= new RotQ();
-        Matrix.translateM(mViewMatrix,0,0,-2f,-3);
-        rotq.rotate(1,0,0,55);
+      //  Matrix.translateM(mViewMatrix,0,0,-2f,-3);
+      // Matrix.translateM(mModelMatrix,0, 0, 0f, 0.6f);
 
-        rotq.matrix(mViewMatrix);
 
-        float fa =16f/9f+((ratio-9f/16f)*16f/9f);
-       // Matrix.translateM(mModelMatrix,0,0,-fa,0);
-        Matrix.scaleM(mModelMatrix,0,fa,fa,fa);
+       // rotq.matrix(mModelMatrix);
+
 
 
         for (int i = 0; i < draweblePerspectivs.size(); i++) {

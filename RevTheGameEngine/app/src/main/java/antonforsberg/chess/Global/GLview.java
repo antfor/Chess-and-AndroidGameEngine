@@ -1,5 +1,8 @@
 package antonforsberg.chess.Global;
 
+import android.content.Context;
+import android.util.DisplayMetrics;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +11,7 @@ import java.util.List;
  */
 
 public class GLview {
-
+    public static Context mActivityContext;
     private GLview() {}
 
     private static List<GLviewListener> listeners=new ArrayList<>(15);
@@ -26,4 +29,21 @@ public class GLview {
         listeners.add(L);
     }
 
+    public static float XDpToPixels(float x){
+        DisplayMetrics displayMetrics=mActivityContext.getResources().getDisplayMetrics();
+        return (displayMetrics.xdpi*x/160.0f)/GLview.width;
+
+    }
+    public static float YDpToPixels(float y){
+        DisplayMetrics displayMetrics=mActivityContext.getResources().getDisplayMetrics();
+       return (displayMetrics.ydpi*y/160.0f)/GLview.height;
+    }
+    public static float XPixelToDp(float x){
+        DisplayMetrics displayMetrics=mActivityContext.getResources().getDisplayMetrics();
+        return x*width*160/displayMetrics.xdpi;
+    }
+    public static float YPixelToDp(float y){
+        DisplayMetrics displayMetrics=mActivityContext.getResources().getDisplayMetrics();
+        return y*height*160/displayMetrics.ydpi;
+    }
 }

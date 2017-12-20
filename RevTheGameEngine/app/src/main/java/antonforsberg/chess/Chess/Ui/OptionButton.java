@@ -18,6 +18,7 @@ public class OptionButton extends Button2D {
 
 private Context context;
 private optionback back;
+private pausedText pausedText;
 private boolean preesed;
 private List<Desplay> buttons=new ArrayList<>(5);
     public OptionButton(Context mActivityContext) {
@@ -26,6 +27,8 @@ private List<Desplay> buttons=new ArrayList<>(5);
         loadAssets();
         viewUpdate();
         back=new optionback(context);
+        pausedText=new pausedText(context);
+
 
     }
 
@@ -47,6 +50,7 @@ private List<Desplay> buttons=new ArrayList<>(5);
     public void draw(float [] mMVPMatrix,float [] mProjectionMatrix,float [] mViewMatrix,float [] mModelMatrix){
         if(preesed){
             back.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
+            pausedText.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
             for (int i = 0; i < buttons.size(); i++) {
                 buttons.get(i).draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
 
