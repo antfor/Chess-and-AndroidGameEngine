@@ -24,7 +24,7 @@ public class Text extends Button2D {
     @Override
     public void viewUpdate() {
         System.out.println((GLview.YDpToPixels(48*3+56*1)/GLview.height));
-        button2dDpPerMiddle(0.5f,1,0.5f+(GLview.YDpToPixels(48*3+56*1)),1,246*1,56*1,3);
+        button2dDpPerMiddle(0.5f,1,0.5f+(GLview.YDpToPixels(48*3+56*1)),1,265.2f*1,56*1,3);
     }
 
     @Override

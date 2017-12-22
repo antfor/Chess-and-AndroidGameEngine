@@ -6,6 +6,7 @@ import android.graphics.Point;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import antonforsberg.chess.Animations.IMatrixInterpolation;
@@ -20,6 +21,7 @@ import antonforsberg.chess.Chess.Game.Logic.ListenerInterface.MoveObserver;
 import antonforsberg.chess.Chess.Game.Logic.ListenerInterface.SelectedObserver;
 import antonforsberg.chess.Chess.Game.Logic.ListenerInterface.ThreatenedObserver;
 import antonforsberg.chess.Chess.Game.Logic.PiecesLogic.King;
+import antonforsberg.chess.Chess.Game.Logic.PiecesLogic.Pawns;
 import antonforsberg.chess.Chess.Game.Logic.PiecesLogic.Pice;
 import antonforsberg.chess. Chess.Player.Black;
 import antonforsberg.chess.Chess.Player.Player;
@@ -39,6 +41,7 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
     private Controller controller;
     private boolean playerchange;
     private boolean PiceAnimation;
+    private boolean addbuttons;
 
     private float[] blackModelMatrix= new float[16];
     private float[] whiteModelMatrix= new float[16];
@@ -47,6 +50,7 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
     private MatrixInterpolation matrixInterpolation =new MatrixInterpolation(500);
     private List<BasicObject> uiObjects=new ArrayList<>(10);
     private LogicObserver logicObserver;
+    private List<Pice[][]> storeboard=new ArrayList<>(10);
 
     public GameLogic(Context mActivityContext){
         this.mActivityContext=mActivityContext;
@@ -56,6 +60,7 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
         watingPlayer=new Black(mActivityContext);
 
         updateBoard();
+        storeboard();
         addSelectedButtons();
     }
 
@@ -81,36 +86,12 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
 
     }
 
-    /*
-    public void draw(float [] mMVPMatrix,float [] mProjectionMatrix,float [] mViewMatrix,float [] mModelMatrix){
-        RotQ rotq=new RotQ();
-
-
-
-    if(currentPlayer.getColor().equals(ColorP.Black)) {
-        float[] modelM=new float[16];
-        System.arraycopy(mModelMatrix, 0,    modelM , 0,    16);
-
-       rotq.rotate(0,1,0,180);
-        rotq.rotate(1,0,0,55);
-       rotq.matrix(modelM);
-        boardObject.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, modelM);
-        controller.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, modelM);
-        currentPlayer.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, modelM);
-        watingPlayer.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, modelM);
-    }
-    else {
-        rotq.rotate(1,0,0,55);
-        rotq.matrix(mModelMatrix);
-        boardObject.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
-        controller.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
-        currentPlayer.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
-        watingPlayer.draw(mMVPMatrix, mProjectionMatrix, mViewMatrix, mModelMatrix);
-    }
-    }
-    */
 
     public void draw(float [] mMVPMatrix,float [] mProjectionMatrix,float [] mViewMatrix,float [] mModelMatrix){
+        if(addbuttons){
+            addSelectedButtons();
+            addbuttons=false;
+        }
         RotQ rotq=new RotQ();
 
         System.arraycopy(mModelMatrix, 0,    whiteModelMatrix , 0,    16);
@@ -271,4 +252,48 @@ public class GameLogic implements SelectedObserver , MoveObserver,ThreatenedObse
     }
 
 
+    private void storeboard(){
+        storeboard.add(copyArray(board));
+    }
+
+    public static Pice[][] copyArray(Pice[][] src) {
+        int length = src.length;
+        Pice[][] target = new Pice[length][src[0].length];
+        for (int i = 0; i < length; i++) {
+            System.arraycopy(src[i], 0, target[i], 0, src[i].length);
+        }
+        return target;
+    }
+
+    public void restartGame(){
+        if(currentPlayer.getColor().equals(ColorP.Black)){
+            Player temp= currentPlayer;
+            currentPlayer=watingPlayer;
+            watingPlayer=temp;
+            playerchange=true;
+        }
+
+        currentPlayer.reviveAll();
+        watingPlayer.reviveAll();
+        setandmove(storeboard.get(0));
+        controller.deleteALL();
+       // addSelectedButtons();
+        addbuttons=true;
+
+
+    }
+    public void setandmove(Pice[][] board){
+        this.board=copyArray(board);
+        for (int i = 0; i < 8; i++) {
+            for (int n = 0; n <8 ; n++) {
+                if(board[i][n]!=null){
+                    board[i][n].Move(new Point(i,n));
+                    if( board[i][n] instanceof Pawns){
+
+                        ((Pawns)board[i][n]).setFirstmoveTrue();
+                    }
+                }
+            }
+        }
+    }
 }

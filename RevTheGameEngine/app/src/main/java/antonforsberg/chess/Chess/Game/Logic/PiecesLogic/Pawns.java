@@ -60,6 +60,10 @@ public class Pawns extends Pice {
         return p;
     }
 
+    public void setFirstmoveTrue(){
+        firstmove=true;
+    }
+
     @Override
     protected void setModel() {
         model=new PawnObject(context,this);

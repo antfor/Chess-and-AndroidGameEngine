@@ -11,6 +11,7 @@ public class Player {
 
 
     protected List<Pice> pices=new ArrayList<>(16);
+    private List<Pice> dead=new ArrayList<>(16);
     private ColorP color;
 
     public Player(ColorP colorp){
@@ -25,6 +26,7 @@ public class Player {
     }
 
     public void removePice(Pice pice){
+        dead.add(pice);
         pices.remove(pice);
     }
 
@@ -33,6 +35,11 @@ public class Player {
         for (int i = 0; i < pices.size(); i++) {
             pices.get(i).draw(mMVPMatrix, mProjectionMatrix, mViewMatrix,mModelMatrix);
         }
+    }
+
+    public void reviveAll(){
+        pices.addAll(dead);
+        dead.clear();
     }
 
 }

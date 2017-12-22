@@ -69,6 +69,7 @@ public class GameOfChess implements DraweblePerspectiv,UiPressListener,DeltaTime
     }
 
     public void newGame(){
-        newGame=true;
+     //   newGame=true;
+        gameLogic.restartGame();
     }
 }
