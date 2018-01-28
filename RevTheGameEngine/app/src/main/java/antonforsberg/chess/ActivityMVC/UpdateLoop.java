@@ -35,19 +35,22 @@ public class UpdateLoop extends Thread {
     }
 
     private void loop(){
-        LastTime=0;  //????
+        LastTime=System.currentTimeMillis();
+        double elapsedtime;
         while (running){
-
+            elapsedtime=System.currentTimeMillis()-LastTime;
+            dtUpdate(elapsedtime);
+            LastTime=elapsedtime;
         }
     }
 
     private void dtUpdate(double time){
 
-        deltaTime=time;
 
         for (int i = 0; i <deltaTimeListeners.size() ; i++) {
-            deltaTimeListeners.get(i).deltaTimeUpdate(deltaTime);
+            deltaTimeListeners.get(i).deltaTimeUpdate(time);
         }
+        deltaTime=time;
 
     }
 }

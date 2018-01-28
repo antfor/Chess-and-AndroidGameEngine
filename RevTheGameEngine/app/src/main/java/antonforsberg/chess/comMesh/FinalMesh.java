@@ -107,6 +107,7 @@ public class FinalMesh {
             case "metal":   break;
             case "button": vertexShader=getButtonVS(); break;
             case "NorCol":vertexShader=Normal_and_ColorVS();break;
+
             default: System.out.println("no vertexshader whit that name dose not exist"); break;
         }
         switch (fragmentShader){
@@ -118,6 +119,7 @@ public class FinalMesh {
             case "metal":   break;
             case "button": fragmentShader=getButtonFS(); break;
             case "NorCol":fragmentShader=Normal_and_ColorFS();break;
+            case "NorColMap":fragmentShader=Normal_and_ColorMapFS();break;
             case "opace":  fragmentShader=opaceFS();break;
             default: System.out.println("no fragmentshader whit that name dose not exist"); break;
         }
@@ -1720,6 +1722,11 @@ private boolean usetex=false;
                 "out vec4 v_Color;\t\t\t// This will be passed into the fragment shader.          \t\t\n" +
                 "out vec3 v_Normal;\t\t\t// This will be passed into the fragment shader.  \n" +
 
+
+                "out vec2 v_TexCoordinate;   // This will be passed into the fragment shader.    \t\t\n" +
+                "in vec2 a_TexCoordinate; // Per-vertex texture coordinate information we will pass in. \t\t\n" +
+
+
                 "\t\t  \n" +
                 "// The entry point for our vertex shader.  \n" +
                 "void main()                                                 \t\n" +
@@ -1735,6 +1742,8 @@ private boolean usetex=false;
                 //    "    v_Normal = vec3(u_MVMatrix * vec4(a_Normal, 0.0));\n" +
                 "   v_Normal =vec3(mat3(transpose(inverse(u_MMatrix))) *a_Normal);  "+
                 "v_Normal=normalize(v_Normal);"+
+
+                "\tv_TexCoordinate = a_TexCoordinate;                                      \n" +
 
                 "\t// gl_Position is a special variable used to store the final position.\n" +
                 "\t// Multiply the vertex by the matrix to get the final point in normalized screen coordinates.\n" +
@@ -1754,7 +1763,8 @@ private boolean usetex=false;
 
                 "in vec3 v_Normal;         \n" +
 
-                " const float PI = 3.14159265359; \n" +
+
+             " const float PI = 3.14159265359; \n" +
                 "  \n" +
 
                 "void main()                    \n" +
@@ -1775,6 +1785,70 @@ private boolean usetex=false;
              "col.y=pow(col.y, 2.2f);"+
              "col.z=pow(col.z, 2.2f);"+
 */
+                "    FragColor =vec4(col.x,col.y,col.z,1.0f);"+
+
+                "}                                                                     \t\n";
+    }
+
+
+
+
+    private String  Normal_and_ColorMapFS(){
+        return    "#version 300 es"+
+                " \n precision highp float;     " +
+                "uniform vec3 u_camPos;       " +
+                "uniform vec3 u_LightPos;       " +
+                "uniform sampler2D u_Texture; " +
+                "uniform sampler2D u_normaltex;    " +
+                "in vec2 v_TexCoordinate;   \n" +
+
+                " out vec4 FragColor; \n" +
+                "in vec3 v_Position;" +
+                "in vec4 v_Color;         " +
+
+                "in vec3 v_Normal;         \n" +
+
+                " const float PI = 3.14159265359; \n" +
+                "  \n" +
+
+                "void main()                    \n" +
+                "{                              \n" +
+                "    float distance = length(u_LightPos - v_Position);                  \n" +
+                "\t\n" +
+
+                "    vec3 lightVector = normalize(u_LightPos - v_Position);              \t\n" +
+                "\n" +
+
+                " vec3 tangentNormal = texture(u_normaltex, v_TexCoordinate).xyz * 2.0 - 1.0;\n" +
+                "\n" +
+                "    vec3 Q1  = dFdx(v_Position);\n" +
+                "    vec3 Q2  = dFdy(v_Position);\n" +
+                "    vec2 st1 = dFdx(v_TexCoordinate);\n" +
+                "    vec2 st2 = dFdy(v_TexCoordinate);\n" +
+                "\n" +
+                "    vec3 N   = normalize(v_Normal);\n" +
+                "    vec3 T  = normalize(Q1*st2.t - Q2*st1.t);\n" +
+
+                //     "T=vec3(mat3(transpose(inverse(u_MMatrix))) *T)"+
+                "T=normalize(T-N*dot(N,T));"+
+
+                "    vec3 B  = -normalize(cross(N, T));\n" +
+                //    "T=normalize(T-N*dot(N,T));"+
+                //  "if(dot(cross(N,T),B)<0.0f){T=T*-1.0;}"+
+
+                "    mat3 TBN = mat3(T, B, N);"+
+                " N = normalize(TBN*tangentNormal); \n" +
+
+                "    float diffuse = max(dot(N, lightVector), 0.0); "+
+
+                "\n"+
+
+                //"FragColor=(texture(u_Texture, v_TexCoordinate)*(1.0f-v_Color));"+
+            //    "   vec4 col= v_Color*diffuse;\n" +
+
+
+                "   vec4 col= texture(u_Texture, v_TexCoordinate)*diffuse+0.1f;\n" +
+
                 "    FragColor =vec4(col.x,col.y,col.z,1.0f);"+
 
                 "}                                                                     \t\n";

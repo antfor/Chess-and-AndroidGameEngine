@@ -224,6 +224,7 @@ public class NewMyGLRenderer  implements GLSurfaceView.Renderer{
             mProjectionMatrix[5]= width / (height  );
         }
     }
+
     @Override
     public void onDrawFrame(GL10 glUnused) {
         float[] scratch = new float[16];
