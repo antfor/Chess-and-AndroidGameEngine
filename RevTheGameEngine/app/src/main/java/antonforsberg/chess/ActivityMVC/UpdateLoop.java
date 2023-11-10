@@ -1,4 +1,4 @@
-package antonforsberg.chess.ActivityMVC.GamePhysics;
+package antonforsberg.chess.ActivityMVC;
 
 import java.util.ArrayList;
 import java.util.List;
