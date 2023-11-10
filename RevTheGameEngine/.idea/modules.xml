@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Chess-and-AndroidGameEngine-RevTheGameEngine.iml" filepath="$PROJECT_DIR$/Chess-and-AndroidGameEngine-RevTheGameEngine.iml" group="RevTheGameEngine" />
       <module fileurl="file://$PROJECT_DIR$/RevTheGameEngine.iml" filepath="$PROJECT_DIR$/RevTheGameEngine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/RevTheGameEngine-app.iml" filepath="$PROJECT_DIR$/app/RevTheGameEngine-app.iml" group="RevTheGameEngine/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

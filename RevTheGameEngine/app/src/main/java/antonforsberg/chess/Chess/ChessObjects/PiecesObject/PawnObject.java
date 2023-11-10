@@ -22,12 +22,12 @@ public class PawnObject  extends PiceObject {
     @Override
     public void loadAssets() {
         LoadObjectAssets load =new LoadObjectAssets(mActivityContext);
-     //  mesh.setNormals(load.LoadFloatArrayAsset(R.raw.pawnnor,4428));
+        mesh.setNormals(load.LoadFloatArrayAsset(R.raw.pawnnor,4428));
         mesh.setVertices(load.LoadFloatArrayAsset( R.raw.pawnver, 4428));
 
-        mesh.setNormals(load.LoadFloatArrayAsset(R.raw.pawnnorsmooth,4428));
-mesh.setTextureCoordinates(load.LoadFloatArrayAsset(R.raw.pawnuv,2952));
-mesh.loadnormaltexture(load.LoadImageAsset(R.drawable.pawntex));
+      //  mesh.setNormals(load.LoadFloatArrayAsset(R.raw.pawnnorsmooth,4428));
+       // mesh.setTextureCoordinates(load.LoadFloatArrayAsset(R.raw.pawnuv,2952));
+        mesh.loadnormaltexture(load.LoadImageAsset(R.drawable.pawntex));
 
 if(p.getColur().equals(ColorP.Black)){mesh.loadtexture(load.LoadImageAsset(R.drawable.blackmarble));}
 else {mesh.loadtexture(load.LoadImageAsset(R.drawable.whitemarble));}
@@ -59,7 +59,7 @@ else {mesh.loadtexture(load.LoadImageAsset(R.drawable.whitemarble));}
         }
 
         mesh.setColor(colurs);
-        mesh.setShader("NorCol","NorColMap");
+        mesh.setShader("NorCol","NorCol");
     }
 
 
