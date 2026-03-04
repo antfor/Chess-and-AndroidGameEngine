@@ -1,9 +1,35 @@
+# Android Studio / IntelliJ
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
+*.ipr
+*.iws
+
+# Gradle
+.gradle/
+build/
+**/build/
+
+# Local configuration
+local.properties
+
+# OS-specific
 .DS_Store
-/build
-/captures
-.externalNativeBuild
+Thumbs.db
+
+# Android captures
+captures/
+
+# NDK / CMake
+.externalNativeBuild/
+.cxx/
+
+# Logs
+*.log
+
+# Keystore files (if you generate them locally)
+*.jks
+*.keystore
+
+# Misc
+*.orig
+
