@@ -2,18 +2,15 @@ package antonforsberg.chess.GUI.Buttons;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.os.Build;
 import android.os.Vibrator;
-import android.support.annotation.NonNull;
-import android.util.DisplayMetrics;
+import android.os.VibratorManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 
-import antonforsberg.chess.GUI.ScreenData;
 import antonforsberg.chess.Global.GLview;
 import antonforsberg.chess.R;
 import antonforsberg.chess.comMesh.FinalMesh;
@@ -195,9 +192,8 @@ private void  removedupe(){
 
 
    protected void  vibrate(){
-       Vibrator v = (Vibrator) mActivityContext.getSystemService(mActivityContext.VIBRATOR_SERVICE);
-
-       v.vibrate(1);
+       Vibrator v = (Vibrator) mActivityContext.getSystemService(Context.VIBRATOR_SERVICE);
+       v.vibrate(50);
    }
     protected void setButtonColor(float r,float g, float b,float a,float []colurs){
         int n = 0;

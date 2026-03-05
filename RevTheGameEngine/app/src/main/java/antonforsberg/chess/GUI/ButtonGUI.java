@@ -6,7 +6,9 @@ package antonforsberg.chess.GUI;
 
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Vibrator;
+import android.os.VibratorManager;
 import android.util.DisplayMetrics;
 
 import antonforsberg.chess.R;
@@ -220,9 +222,8 @@ public class ButtonGUI extends FinalMesh  {
     public void setPressed(boolean b){
         presed=b;
         if(b){
-            Vibrator v = (Vibrator) mActivityContext.getSystemService(mActivityContext.VIBRATOR_SERVICE);
-            // Vibrate for 500 milliseconds
-            v.vibrate(1);
+            Vibrator v = (Vibrator) mActivityContext.getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(50);
             selected=false;
         }
     }
