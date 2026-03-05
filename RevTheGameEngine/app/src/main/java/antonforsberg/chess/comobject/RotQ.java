@@ -260,11 +260,6 @@ public void matrix(float[] matrix){
         hprim[3]=-1.0f*(float)(vec[2]*sin(deg/2));
         multi();
 
-        System.out.println("1q: "+rot[0]);
-        System.out.println("2q: "+rot[1]);
-        System.out.println("3q: "+rot[2]);
-        System.out.println("4q: "+rot[3]);
-
     }
 
 public void multi(){

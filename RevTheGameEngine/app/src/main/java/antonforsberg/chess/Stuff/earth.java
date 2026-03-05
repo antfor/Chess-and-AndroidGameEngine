@@ -17,7 +17,6 @@ public class earth extends FinalMesh {
 
     public earth(final Context mActivityContext) {
 
-System.out.println("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
         setNormals(RawObjectData.readObjectData(mActivityContext, R.raw.earth, 9216, "n"));
 
         setVertices(RawObjectData.readObjectData(mActivityContext, R.raw.earth, 9216, "v"));

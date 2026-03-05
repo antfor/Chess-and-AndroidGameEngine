@@ -71,11 +71,6 @@ public class MatrixInterpolation {
            stopanimation();
        }
 
-       System.out.println(Arrays.toString(start));
-       System.out.println(Arrays.toString(middle));
-       System.out.println(Arrays.toString(end));
-       System.out.println("stop");
-
    }
 
     private void scaleInterpolation(float[] start, float[] end, double timedif) {
