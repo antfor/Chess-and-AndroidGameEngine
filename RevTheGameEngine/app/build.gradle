@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.application'
+    alias(libs.plugins.android.application)
 }
 
 android {
@@ -36,12 +36,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'androidx.core:core-ktx:1.17.0'
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
 
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test:runner:1.7.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.espresso.core)
 }
 tasks.withType(JavaCompile).configureEach {
     options.compilerArgs << "-Xlint:deprecation"
